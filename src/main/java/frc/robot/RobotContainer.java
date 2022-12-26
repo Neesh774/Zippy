@@ -1,6 +1,9 @@
 package frc.robot;
 
 import java.util.List;
+
+import org.photonvision.targeting.PhotonPipelineResult;
+
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -46,8 +49,13 @@ public class RobotContainer {
         private void configureButtonBindings() {
                 new JoystickButton(driverJoystick, 2).whenPressed(() -> swerveSubsystem.zeroHeading());
                 new JoystickButton(driverJoystick, 3).whileHeld(
-                                () -> new turnToTarget(swerveSubsystem,
-                                                visionSubsystem.getResult().getBestTarget().getSkew()));
+                                () -> {
+                                        PhotonPipelineResult res = visionSubsystem.getResult();
+                                        if (res.hasTargets()) {
+                                                new turnToTarget(swerveSubsystem,
+                                                                res.getBestTarget().getSkew());
+                                        }
+                                });
         }
 
         public Command getAutonomousCommand() {
