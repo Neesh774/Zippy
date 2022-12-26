@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
@@ -19,6 +20,8 @@ import frc.robot.subsystems.Vision;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class turnToTarget extends PIDCommand {
   /** Creates a new trackAprilTag. */
+  final double GOAL_RANGE_METERS = Units.feetToMeters(1);
+
   public turnToTarget(SwerveSubsystem swerveSubsystem, double setpoint) {
     super(
         // The controller that the command will use

@@ -12,21 +12,35 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.turnToTarget;
 
 public class Vision extends SubsystemBase {
   /** Creates a new Vision. */
   private PhotonCamera camera;
 
   public Vision() {
-    this.camera = new PhotonCamera("photonvision");
+    this.camera = new PhotonCamera("Global_Shutter_Camera");
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Number Vision Targets", getResult().getTargets().size());
+    PhotonPipelineResult res = getResult();
+    SmartDashboard.putNumber("Number Vision Targets", res.getTargets().size());
+    SmartDashboard.putBoolean("Has Targets", res.hasTargets());
   }
 
   public PhotonPipelineResult getResult() {
     return camera.getLatestResult();
+  }
+
+  public Runnable turnToTag(SwerveSubsystem swerveSubsystem) {
+    PhotonPipelineResult res = getResult();
+    if (res.hasTargets()) {
+      return () -> new turnToTarget(swerveSubsystem,
+          res.getBestTarget().getYaw());
+    } else {
+      return () -> {
+      };
+    }
   }
 }

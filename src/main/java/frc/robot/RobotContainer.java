@@ -48,14 +48,7 @@ public class RobotContainer {
 
         private void configureButtonBindings() {
                 new JoystickButton(driverJoystick, 2).whenPressed(() -> swerveSubsystem.zeroHeading());
-                new JoystickButton(driverJoystick, 3).whileHeld(
-                                () -> {
-                                        PhotonPipelineResult res = visionSubsystem.getResult();
-                                        if (res.hasTargets()) {
-                                                new turnToTarget(swerveSubsystem,
-                                                                res.getBestTarget().getSkew());
-                                        }
-                                });
+                new JoystickButton(driverJoystick, 3).whileHeld(visionSubsystem.turnToTag(swerveSubsystem));
         }
 
         public Command getAutonomousCommand() {
