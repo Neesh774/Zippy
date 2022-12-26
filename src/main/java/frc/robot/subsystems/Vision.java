@@ -21,15 +21,12 @@ public class Vision extends SubsystemBase {
     this.camera = new PhotonCamera("photonvision");
   }
 
-  public boolean hasTargets() {
-    return camera.getLatestResult().hasTargets();
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("Number Vision Targets", getResult().getTargets().size());
   }
 
-  public List<PhotonTrackedTarget> getTargets() {
-    return camera.getLatestResult().getTargets();
-  }
-
-  public PhotonTrackedTarget getBestTarget() {
-    return camera.getLatestResult().getTargets().get(0);
+  public PhotonPipelineResult getResult() {
+    return camera.getLatestResult();
   }
 }
