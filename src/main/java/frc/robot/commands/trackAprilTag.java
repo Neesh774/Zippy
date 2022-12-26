@@ -19,14 +19,14 @@ import frc.robot.subsystems.Vision;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class trackAprilTag extends PIDCommand {
   /** Creates a new trackAprilTag. */
-  public trackAprilTag(SwerveSubsystem swerveSubsystem, Vision vision) {
+  public trackAprilTag(SwerveSubsystem swerveSubsystem, double setpoint) {
     super(
         // The controller that the command will use
         new PIDController(0.3, 0, 0),
         // This should return the measurement
         () -> swerveSubsystem.getHeading(),
         // This should return the setpoint (can also be a constant)
-        () -> vision.getBestTarget().getYaw(),
+        () -> setpoint,
         // This uses the output
         turningSpeed -> {
           turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
@@ -39,11 +39,12 @@ public class trackAprilTag extends PIDCommand {
           SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
           swerveSubsystem.setModuleStates(moduleStates);
         });
+    this.m_controller.setTolerance(3);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return this.m_controller.atSetpoint();
   }
 }
