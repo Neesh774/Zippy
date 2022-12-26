@@ -17,9 +17,9 @@ import frc.robot.subsystems.Vision;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class trackAprilTag extends PIDCommand {
+public class turnToTarget extends PIDCommand {
   /** Creates a new trackAprilTag. */
-  public trackAprilTag(SwerveSubsystem swerveSubsystem, double setpoint) {
+  public turnToTarget(SwerveSubsystem swerveSubsystem, double setpoint) {
     super(
         // The controller that the command will use
         new PIDController(0.3, 0, 0),
