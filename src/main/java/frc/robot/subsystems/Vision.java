@@ -30,6 +30,6 @@ public class Vision extends SubsystemBase {
   }
 
   public PhotonTrackedTarget getBestTarget() {
-    return camera.getLatestResult().getBestTarget();
+    return camera.getLatestResult().getTargets().get(0);
   }
 }
