@@ -45,7 +45,7 @@ public class RobotContainer {
 
         private void configureButtonBindings() {
                 new JoystickButton(driverJoystick, 2).whenPressed(() -> swerveSubsystem.zeroHeading());
-                new JoystickButton(driverJoystick, PS4Controller.Button.kCircle.value).whileHeld(
+                new JoystickButton(driverJoystick, 3).whileHeld(
                                 () -> new turnToTarget(swerveSubsystem, visionSubsystem.getBestTarget().getSkew()));
         }
 
